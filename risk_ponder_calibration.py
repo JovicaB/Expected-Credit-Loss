@@ -3,57 +3,6 @@ import itertools
 import os
 import random
 import threading
-import xml.etree.ElementTree as eT
-
-
-class XMLData:
-    def __init__(self):
-        self.xml_path = "data/ponder_values.xml"
-        self.lock = threading.Lock()
-
-    def create_xml(self):
-        """
-        creates XML file in data sub folder with 2 nodes 'risk' and 'ponder' with default values for both
-        :return: None
-        """
-        if os.path.exists(self.xml_path):
-            print("File already exists.")
-            return
-
-        root = eT.Element("root")
-        risk = eT.SubElement(root, "risk")
-        risk.text = "{0: 0, 1: 0, 2: 0, 3: 0, 4: 0}"
-        ponder = eT.SubElement(root, "ponder")
-        ponder.text = "{0: 20, 1: 20, 2: 20, 3: 20, 4: 20}"
-
-        tree = eT.ElementTree(root)
-        tree.write(self.xml_path, xml_declaration=False)
-
-    def get_xml_value(self, node):
-        """
-        loads ponder or risk value from xml file
-        :param node: 'ponder' or 'risk'
-        :return: dictionary with 5 keys and values
-        """
-        tree = eT.parse(self.xml_path)
-        root = tree.getroot()
-        node_value = root.find(node)
-        return ast.literal_eval(node_value.text)
-
-    def write_xml_value(self, node, value):
-        """
-        saves ponder or risk value into xml file
-        :param node: 'ponder' or 'risk'
-        :param value:
-        :return: None
-        """
-        with self.lock:
-            self.create_xml()
-            tree = eT.parse(self.xml_path)
-            root = tree.getroot()
-            risk = root.find(node)
-            risk.text = value
-            tree.write(self.xml_path)
 
 
 class PonderCalibration:
