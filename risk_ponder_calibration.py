@@ -13,10 +13,7 @@ class PonderCalibration:
         self.ponder_status = self.data[2:]
 
     def replace_false(self):
-        # self.ponder_status = self.ponder_status[0]
-
         total = sum([0 if x is False else x for x in self.ponder_status])
-
         value = 100 - total
 
         for i in range(len(self.ponder_status)):
@@ -27,7 +24,7 @@ class PonderCalibration:
 
     def set_iterator(self):
         """
-        define randomised iterator list without element that is changed
+        define randomised iterator list without element(ponder) that is changed
         example: if ponder 1 is changed method randomises remaining ponder indexes, because moving ponder slider without
         randomise tends to only change next ponder
         """
